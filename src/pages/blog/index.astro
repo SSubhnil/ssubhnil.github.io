@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts } from '../../lib/posts';
+
+const posts = await getPosts();
+---
+
+<Base title="Blog" description="Notes on LLM reasoning, interpretability, world models and ML engineering.">
+  <div class="measure page">
+    <h1>Blog</h1>
+    <p class="lead">Notes on LLM reasoning, interpretability, world models and making training cheaper.</p>
+    <PostList posts={posts} />
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 3rem;
+  }
+  .lead {
+    font-size: 1.12rem;
+  }
+</style>

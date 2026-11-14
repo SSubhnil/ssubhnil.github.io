@@ -1,0 +1,70 @@
+---
+import type { Item } from '../data/research';
+import { SITE } from '../config';
+
+interface Props {
+  item: Item;
+  heading?: 'h3' | 'h4';
+}
+const { item, heading = 'h3' } = Astro.props;
+const Heading = heading;
+
+const authors = item.authors
+  ? item.authors.split(SITE.name).join(`<strong>${SITE.name}</strong>`)
+  : undefined;
+---
+
+<article class="item" id={item.id}>
+  <Heading class="title">{item.title}</Heading>
+  {item.meta && <p class="meta">{item.meta}</p>}
+  {authors && <p class="authors" set:html={authors} />}
+  <p class="summary">{item.summary}</p>
+  {
+    item.links && item.links.length > 0 && (
+      <ul class="item-links">
+        {item.links.map((l) => (
+          <li>
+            <a href={l.url}>{l.label}</a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</article>
+
+<style>
+  .item {
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--rule);
+    scroll-margin-top: 1.5rem;
+  }
+  .title {
+    margin: 0 0 0.3rem;
+    font-size: 1.08rem;
+    font-weight: 620;
+  }
+  .meta,
+  .authors {
+    font-family: var(--font-sans);
+    font-size: 0.86rem;
+    color: var(--muted);
+    margin: 0 0 0.35rem;
+  }
+  .authors :global(strong) {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .summary {
+    margin: 0.5rem 0 0;
+  }
+  .item-links {
+    list-style: none;
+    padding: 0;
+    margin: 0.7rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1.1rem;
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+  }
+</style>

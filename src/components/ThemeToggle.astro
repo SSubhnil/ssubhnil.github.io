@@ -1,0 +1,78 @@
+---
+// A two-position switch: left is dark (default), right is light.
+---
+
+<button class="theme-switch" type="button" role="switch" aria-checked="false" aria-label="Light theme">
+  <svg class="icon moon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" />
+  </svg>
+  <span class="track"><span class="thumb"></span></span>
+  <svg class="icon sun" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4" />
+    <path
+      d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"
+    />
+  </svg>
+</button>
+
+<style>
+  .theme-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: 0;
+    padding: 0.25rem;
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .icon {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .track {
+    position: relative;
+    width: 34px;
+    height: 18px;
+    border-radius: 9px;
+    background: var(--rule);
+    transition: background 0.2s;
+  }
+  .thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--text);
+    transition: transform 0.2s ease;
+  }
+  :global([data-theme='light']) .thumb {
+    transform: translateX(16px);
+  }
+  :global([data-theme='dark']) .moon,
+  :global([data-theme='light']) .sun {
+    color: var(--text);
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.theme-switch');
+  const root = document.documentElement;
+  const sync = () => btn?.setAttribute('aria-checked', String(root.dataset.theme === 'light'));
+  sync();
+  btn?.addEventListener('click', () => {
+    const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch (e) {}
+    sync();
+  });
+</script>

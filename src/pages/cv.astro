@@ -1,0 +1,298 @@
+---
+import fs from 'node:fs';
+import Base from '../layouts/Base.astro';
+import Links from '../components/Links.astro';
+import { SITE } from '../config';
+
+// Put your PDF at public/cv.pdf and a download link appears.
+const hasPdf = fs.existsSync('public/cv.pdf');
+
+type Role = { org: string; title: string; dates: string; note?: string; bullets?: string[] };
+
+const experience: Role[] = [
+  {
+    org: 'IBM Research, Dublin',
+    title: 'Research Scientist Intern',
+    dates: 'Jun 2025 – Sep 2025',
+    note: 'Since October 2025, an ongoing research collaboration with the same team.',
+    bullets: [
+      "Built a pipeline that turns an open LLM's wrong answers into new training data and fine-tunes the model on it, with teacher LLMs, LLM judges and models served on self-hosted vLLM.",
+      "Wrote a first-author NeurIPS 2026 workshop paper testing whether an LLM's internal activations show where its reasoning goes wrong. A classifier on the activations flags wrong answers without extra LLM calls (AUROC 0.81 vs 0.78 for text only), but the probes we tested couldn't locate the failing step better than a trace-length rule.",
+      'Open-sourced the evaluation pipeline and a 288k-trace reasoning dataset on Hugging Face (1,000+ downloads).',
+      'Wrote the structured-output tool my team uses for LLM calls. The tool checks every response against a JSON schema and retries failures.',
+      'Leading a new interpretability research direction for LLM agents and a new benchmark for AI agents.',
+    ],
+  },
+  {
+    org: 'Trinity College Dublin',
+    title: 'Machine Learning Research Scientist (PhD)',
+    dates: 'Sep 2022 – present',
+    bullets: [
+      'Developed a world model, trained on simulation video, that adapts when conditions change at deployment time. The model beats leading methods on standard benchmarks and on the evaluation suite I built for unseen conditions.',
+      'Nearly halved GPU time per training run with CUDA graphs, and made each prediction step about 4x faster with recurrent decoding on a Mamba-3 backbone.',
+      'Run my experiments in parallel with an LLM agent setup I built and steer, which files the results for my review.',
+      'Tutored Mathematics, Applied Probability and Artificial Intelligence modules as a teaching assistant (Sep 2022 – May 2025).',
+    ],
+  },
+  {
+    org: 'National College of Ireland',
+    title: 'Associate Faculty',
+    dates: 'Sep 2023 – present',
+    bullets: ['Teach statistics and have mentored over 30 MSc machine learning projects, from RAG and LLM systems to classic ML.'],
+  },
+];
+
+const earlier: Role[] = [
+  { org: 'SRM University', title: 'Research Engineer Assistant', dates: 'Jan 2022 – Jul 2022' },
+  {
+    org: 'University of Manchester',
+    title: 'Research Assistant',
+    dates: 'Mar 2021 – Jul 2021',
+    note: 'Released the reinforcement learning library from my MSc thesis as an open-source Python package.',
+  },
+  {
+    org: '4ZE Racing (Formula Student)',
+    title: 'Chief Mechanical Officer',
+    dates: '2018 – 2019',
+    note: 'Led the mechanical side of an electric race car team; placed 3rd and 5th overall in two national championships.',
+  },
+];
+
+const education = [
+  {
+    degree: 'PhD in Computer Science',
+    school: 'Trinity College Dublin',
+    dates: '2022 – 2026',
+    note: 'World models. Supervised by Vinny Cahill and Ivana Dusparic; funded by Science Foundation Ireland. Submitting December 2026.',
+  },
+  {
+    degree: 'MSc in Applied Mathematics',
+    school: 'University of Manchester',
+    dates: '2019 – 2020',
+    note: 'Merit; thesis with Distinction.',
+  },
+  {
+    degree: 'B.Tech in Mechanical Engineering',
+    school: 'SRM Institute of Science and Technology',
+    dates: '2015 – 2019',
+    note: 'First Class with Distinction.',
+  },
+];
+
+const skills = [
+  { group: 'Machine learning', items: 'PyTorch, Hugging Face, vLLM, fine-tuning (LoRA, DPO, GRPO), LLM evaluation, interpretability, state space models (Mamba), transformers, reinforcement learning, computer vision' },
+  { group: 'Engineering', items: 'Python, CUDA, Triton, distributed training (FSDP), Docker, Kubernetes, FastAPI, Linux, Git, Weights & Biases' },
+  { group: 'Data and statistics', items: 'NumPy, pandas, scikit-learn, SciPy, experimental design, statistical analysis' },
+];
+---
+
+<Base title="CV" description={`CV of ${SITE.name}, machine learning research scientist.`}>
+  <div class="measure cv">
+    <header>
+      <h1>Curriculum vitae</h1>
+      <p class="muted sans">Machine Learning Research Scientist, {SITE.location}</p>
+      <Links />
+      <p class="actions no-print">
+        {hasPdf && <a href="/cv.pdf">Download PDF</a>}
+        <button type="button" onclick="window.print()">Print this page</button>
+      </p>
+    </header>
+
+    <section>
+      <h2>Experience</h2>
+      {
+        experience.map((r) => (
+          <div class="role">
+            <div class="row">
+              <h3>
+                {r.title}, <span class="org">{r.org}</span>
+              </h3>
+              <span class="dates">{r.dates}</span>
+            </div>
+            {r.note && <p class="note">{r.note}</p>}
+            {r.bullets && (
+              <ul>
+                {r.bullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))
+      }
+      <h3 class="sub">Earlier</h3>
+      {
+        earlier.map((r) => (
+          <div class="role compact">
+            <div class="row">
+              <p class="line">
+                {r.title}, <span class="org">{r.org}</span>
+              </p>
+              <span class="dates">{r.dates}</span>
+            </div>
+            {r.note && <p class="note">{r.note}</p>}
+          </div>
+        ))
+      }
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      {
+        education.map((e) => (
+          <div class="role">
+            <div class="row">
+              <h3>
+                {e.degree}, <span class="org">{e.school}</span>
+              </h3>
+              <span class="dates">{e.dates}</span>
+            </div>
+            <p class="note">{e.note}</p>
+          </div>
+        ))
+      }
+    </section>
+
+    <section>
+      <h2>Publications</h2>
+      <p>
+        <strong>Shubham Subhnil</strong>, Yannis Belkhiter, Erik Miehling, Adam Dahlgren Lindström, Elizabeth M. Daly.{' '}
+        <a href="https://arxiv.org/abs/2610.22046">Effectiveness of Hidden-State Probes for Localizing Reasoning Failures</a>.
+        NeurIPS 2026 Workshop: Interpretability as a Science.
+      </p>
+    </section>
+
+    <section>
+      <h2>Service</h2>
+      <ul>
+        <li>Reviewer (Program Committee), FAST workshop at AAAI 2026.</li>
+        <li>IJCAI 2026 Doctoral Consortium.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Skills</h2>
+      <dl class="skills">
+        {
+          skills.map((s) => (
+            <>
+              <dt>{s.group}</dt>
+              <dd>{s.items}</dd>
+            </>
+          ))
+        }
+      </dl>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .cv {
+    padding-top: 3rem;
+  }
+  header :global(.links) {
+    margin-top: 0.8rem;
+    font-size: 0.92rem;
+  }
+  .actions {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+    margin-top: 1.2rem;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+  }
+  .actions button {
+    font: inherit;
+    color: var(--link);
+    background: none;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 0.25rem 0.7rem;
+    cursor: pointer;
+  }
+  .actions button:hover {
+    border-color: var(--link);
+  }
+  h2 {
+    font-size: 1.2rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .role {
+    margin: 1.3rem 0 1.4rem;
+  }
+  .role.compact {
+    margin: 0.6rem 0;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  h3,
+  .line {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 620;
+    margin: 0;
+  }
+  .line {
+    font-weight: 500;
+  }
+  .org {
+    font-weight: 400;
+    color: var(--muted);
+  }
+  .sub {
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+  .dates {
+    font-family: var(--font-sans);
+    font-size: 0.84rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .note {
+    margin: 0.3rem 0 0;
+    font-size: 0.95rem;
+  }
+  ul {
+    padding-left: 1.1rem;
+    margin: 0.5rem 0 0;
+  }
+  li {
+    margin-bottom: 0.35rem;
+  }
+  .skills {
+    margin: 1rem 0 0;
+  }
+  .skills dt {
+    font-family: var(--font-sans);
+    font-weight: 620;
+    font-size: 0.92rem;
+  }
+  .skills dd {
+    margin: 0.1rem 0 0.9rem;
+  }
+  @media (max-width: 560px) {
+    .row {
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+  }
+  @media print {
+    .cv {
+      padding-top: 0;
+    }
+    h2 {
+      margin-top: 1.2em;
+    }
+    .role {
+      break-inside: avoid;
+    }
+  }
+</style>

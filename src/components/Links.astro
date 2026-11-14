@@ -1,0 +1,42 @@
+---
+import { visibleLinks } from '../config';
+
+interface Props {
+  size?: 'normal' | 'large';
+}
+const { size = 'normal' } = Astro.props;
+---
+
+<ul class:list={['links', size]}>
+  {
+    visibleLinks().map((l) => (
+      <li>
+        <a href={l.url} rel={l.url.startsWith('http') ? 'me noopener' : undefined}>
+          {l.label}
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.3rem;
+    font-family: var(--font-sans);
+  }
+  .large {
+    font-size: 0.98rem;
+  }
+  a {
+    color: var(--text);
+    text-decoration-color: var(--rule);
+  }
+  a:hover {
+    text-decoration-color: var(--teal);
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+import { SITE } from '../config';
+import Links from './Links.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site">
+  <div class="inner">
+    <Links />
+    <p class="muted">© {year} {SITE.name}. <a href="/rss.xml">RSS</a></p>
+  </div>
+</footer>
+
+<style>
+  footer.site {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--rule);
+  }
+  .inner {
+    max-width: var(--wide);
+    margin: 0 auto;
+    padding: 1.6rem 1.5rem 2.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.8rem 2rem;
+  }
+  p {
+    margin: 0;
+  }
+  p a {
+    color: var(--muted);
+  }
+</style>

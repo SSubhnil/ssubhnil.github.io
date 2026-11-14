@@ -1,0 +1,277 @@
+/* Design tokens. Dark is the default; [data-theme='light'] overrides.
+   Teal and amber come from the rollout plots: teal marks a continuation that
+   still reaches the answer, amber marks the step where a trace fails. */
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0f1626;
+  --surface: #151e31;
+  --rule: #253149;
+  --text: #e3e7ef;
+  --muted: #98a3b7;
+  --teal: #6fd0c3;
+  --amber: #f0a257;
+  --link: var(--teal);
+  --code-bg: #131b2c;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f5f7fa;
+  --surface: #ffffff;
+  --rule: #dbe1ea;
+  --text: #18202f;
+  --muted: #586378;
+  --teal: #16796e;
+  --amber: #a85612;
+  --link: var(--teal);
+  --code-bg: #eef1f6;
+}
+
+:root {
+  --font-sans: 'Schibsted Grotesk Variable', system-ui, sans-serif;
+  --font-serif: 'Literata Variable', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --measure: 40rem;
+  --wide: 60rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-serif);
+  font-size: 112.5%; /* 18px */
+  line-height: 1.7;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 0 1.5rem 5rem;
+}
+
+.prose,
+.measure {
+  max-width: var(--measure);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-sans);
+  line-height: 1.2;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  margin: 2.4em 0 0.6em;
+}
+
+h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 1.45rem;
+}
+
+h3 {
+  font-size: 1.12rem;
+}
+
+p,
+ul,
+ol {
+  margin: 0 0 1.1em;
+}
+
+a {
+  color: var(--link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 3rem 0;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.sans {
+  font-family: var(--font-sans);
+}
+
+/* Code */
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+}
+
+:not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.12em 0.35em;
+  border-radius: 4px;
+}
+
+pre {
+  background: var(--code-bg) !important;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  overflow-x: auto;
+  line-height: 1.55;
+}
+
+/* Shiki dual theme */
+.astro-code,
+.astro-code span {
+  color: var(--shiki-dark);
+}
+
+[data-theme='light'] .astro-code,
+[data-theme='light'] .astro-code span {
+  color: var(--shiki-light);
+}
+
+/* Maths */
+.katex {
+  font-size: 1.05em;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.3rem 0;
+}
+
+/* Figures */
+figure {
+  margin: 2rem 0;
+}
+
+figure img {
+  display: block;
+  border-radius: 6px;
+  background: #fff;
+  padding: 0.6rem;
+}
+
+figcaption {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: 0.7rem;
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1.1rem;
+  border-left: 2px solid var(--rule);
+  color: var(--muted);
+}
+
+table {
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  margin: 1.5rem 0;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.4rem 0.9rem 0.4rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 106.25%; /* 17px */
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  main {
+    padding: 0 1.1rem 4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media print {
+  header.site,
+  footer.site,
+  .no-print {
+    display: none !important;
+  }
+  html {
+    background: #fff;
+    color: #000;
+    font-size: 10.5pt;
+  }
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+  main {
+    padding: 0;
+    max-width: none;
+  }
+}

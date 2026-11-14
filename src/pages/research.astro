@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import ResearchItem from '../components/ResearchItem.astro';
+import { sections } from '../data/research';
+---
+
+<Base title="Research" description="Papers, datasets and projects on LLM reasoning, interpretability and world models.">
+  <div class="measure page">
+    <h1>Research</h1>
+    <p class="lead">
+      I work on two threads in parallel: why large language models get reasoning wrong, and world models that adapt
+      when conditions change at deployment time.
+    </p>
+
+    {
+      sections.map((s) => (
+        <section id={s.id}>
+          <h2>{s.title}</h2>
+          <p class="intro muted">{s.intro}</p>
+          {s.items.map((item) => (
+            <ResearchItem item={item} />
+          ))}
+        </section>
+      ))
+    }
+
+    <section id="service">
+      <h2>Service and teaching</h2>
+      <ul class="plain">
+        <li>Reviewer (Program Committee), FAST workshop at AAAI 2026.</li>
+        <li>IJCAI 2026 Doctoral Consortium.</li>
+        <li>
+          Associate Faculty at National College of Ireland since 2023: I teach statistics and have mentored over 30 MSc
+          machine learning projects.
+        </li>
+      </ul>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 3rem;
+  }
+  .lead {
+    font-size: 1.12rem;
+  }
+  .intro {
+    font-size: 0.97rem;
+  }
+  .plain {
+    padding-left: 1.1rem;
+  }
+  .plain li {
+    margin-bottom: 0.5rem;
+  }
+</style>

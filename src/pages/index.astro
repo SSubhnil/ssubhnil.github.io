@@ -1,0 +1,117 @@
+---
+import fs from 'node:fs';
+import Base from '../layouts/Base.astro';
+import RolloutTree from '../components/RolloutTree.astro';
+import Links from '../components/Links.astro';
+import ResearchItem from '../components/ResearchItem.astro';
+import PostList from '../components/PostList.astro';
+import { SITE } from '../config';
+import { featured, now } from '../data/research';
+import { getPosts } from '../lib/posts';
+
+// Drop a portrait photo (4:5) at public/images/profile.jpg and it appears here.
+const hasPhoto = fs.existsSync('public/images/profile.jpg');
+const posts = (await getPosts()).slice(0, 3);
+---
+
+<Base>
+  <section class="intro">
+    <div class="text">
+      <h1>{SITE.name}</h1>
+      <p class="lead">
+        I'm a machine learning research scientist in Dublin. I work on why large language models get reasoning wrong, and
+        on world models: models that predict what happens next in an environment and adapt when conditions change at
+        deployment time.
+      </p>
+      <p>
+        I'm finishing my PhD in Computer Science at Trinity College Dublin (submitting December 2026), and I've been
+        working with IBM Research since June 2025. {SITE.openTo}
+      </p>
+      <Links size="large" />
+    </div>
+    {hasPhoto && <img class="photo" src="/images/profile.jpg" alt={`${SITE.name} on a canal bridge in Amsterdam`} width="800" height="1000" />}
+  </section>
+
+  <RolloutTree />
+
+  <section class="measure">
+    <h2>Currently working on</h2>
+    <ul class="now">
+      {now.map((line) => <li>{line}</li>)}
+    </ul>
+  </section>
+
+  <section class="measure">
+    <h2>Selected work</h2>
+    {featured.map((item) => <ResearchItem item={item} />)}
+    <p class="more"><a href="/research/">All research and projects</a></p>
+  </section>
+
+  <section class="measure">
+    <h2>Writing</h2>
+    <PostList posts={posts} />
+  </section>
+</Base>
+
+<style>
+  .intro {
+    display: flex;
+    align-items: flex-start;
+    gap: 2.5rem;
+    padding: 3.5rem 0 2.8rem;
+  }
+  .text {
+    max-width: var(--measure);
+  }
+  h1 {
+    font-size: 2.9rem;
+    margin-bottom: 1.1rem;
+  }
+  .lead {
+    font-size: 1.17rem;
+    line-height: 1.6;
+  }
+  .text :global(.links) {
+    margin-top: 1.6rem;
+  }
+  .photo {
+    width: 240px;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    margin-top: 0.6rem;
+  }
+  .now {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+  .now li {
+    margin-bottom: 0.45rem;
+  }
+  .now li::marker {
+    color: var(--teal);
+  }
+  .more {
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--rule);
+  }
+  @media (max-width: 720px) {
+    .intro {
+      flex-direction: column-reverse;
+      gap: 1.5rem;
+      padding-top: 2rem;
+    }
+    h1 {
+      font-size: 2.2rem;
+    }
+    .photo {
+      width: 100%;
+      max-width: 220px;
+      margin-top: 0;
+    }
+  }
+</style>

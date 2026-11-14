@@ -1,0 +1,66 @@
+---
+import { formatDate, type Post } from '../lib/posts';
+import { upcoming } from '../data/upcoming';
+
+interface Props {
+  posts: Post[];
+}
+const { posts } = Astro.props;
+---
+
+<ul class="posts">
+  {
+    posts.map((p) => (
+      <li>
+        <a class="title" href={`/blog/${p.id}/`}>
+          {p.data.title}
+        </a>
+        <p class="desc">{p.data.description}</p>
+        <time datetime={p.data.date.toISOString()}>
+          {formatDate(p.data.date)}
+          {p.data.draft && ' (draft)'}
+        </time>
+      </li>
+    ))
+  }
+  {
+    upcoming.map((u) => (
+      <li class="upcoming">
+        <span class="title">{u.title}</span>
+        <p class="desc">{u.description}</p>
+        <span class="soon">Coming soon</span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .posts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    padding: 1.3rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .title {
+    font-family: var(--font-sans);
+    font-weight: 620;
+    font-size: 1.08rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  a.title:hover {
+    color: var(--link);
+  }
+  .desc {
+    margin: 0.35rem 0 0.4rem;
+  }
+  time,
+  .soon {
+    font-family: var(--font-sans);
+    font-size: 0.84rem;
+    color: var(--muted);
+  }
+</style>

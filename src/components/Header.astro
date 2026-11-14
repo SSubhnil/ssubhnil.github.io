@@ -1,0 +1,77 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import { NAV } from '../config';
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(href);
+---
+
+<a class="skip sr-only" href="#main">Skip to content</a>
+<header class="site">
+  <div class="bar">
+    <a class="home" href="/" aria-current={path === '/' ? 'page' : undefined}>Home</a>
+    <nav aria-label="Main">
+      {
+        NAV.map((item) => (
+          <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+      <ThemeToggle />
+    </nav>
+  </div>
+</header>
+
+<style>
+  .skip:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    clip: auto;
+  }
+  header.site {
+    font-family: var(--font-sans);
+  }
+  .bar {
+    max-width: var(--wide);
+    margin: 0 auto;
+    padding: 1.4rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .home {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.92rem;
+  }
+  .home:hover,
+  .home[aria-current='page'] {
+    color: var(--text);
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    font-size: 0.92rem;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  nav a:hover,
+  nav a[aria-current='page'] {
+    color: var(--text);
+  }
+  @media (max-width: 560px) {
+    .bar {
+      padding: 1.1rem;
+      flex-wrap: wrap;
+    }
+    nav {
+      gap: 1rem;
+    }
+  }
+</style>
