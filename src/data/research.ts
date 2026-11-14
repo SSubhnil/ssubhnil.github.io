@@ -19,7 +19,7 @@ export const sections: Section[] = [
     id: 'llm',
     title: 'LLM reasoning and interpretability',
     intro:
-      'With IBM Research in Dublin since June 2025: an internship, then an ongoing research collaboration with the same team.',
+      'With IBM Research in Dublin since June 2025: Research Scientist Intern, then Research Collaborator with the same team.',
     items: [
       {
         id: 'probes',

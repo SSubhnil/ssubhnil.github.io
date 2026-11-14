@@ -7,14 +7,21 @@ import { SITE } from '../config';
 // Put your PDF at public/cv.pdf and a download link appears.
 const hasPdf = fs.existsSync('public/cv.pdf');
 
-type Role = { org: string; title: string; dates: string; note?: string; bullets?: string[] };
+type Role = {
+  org: string;
+  title: string;
+  dates: string;
+  before?: { title: string; dates: string }; // an earlier title with the same team
+  note?: string;
+  bullets?: string[];
+};
 
 const experience: Role[] = [
   {
     org: 'IBM Research, Dublin',
-    title: 'Research Scientist Intern',
-    dates: 'Jun 2025 – Sep 2025',
-    note: 'Since October 2025, an ongoing research collaboration with the same team.',
+    title: 'Research Collaborator',
+    dates: 'Oct 2025 – present',
+    before: { title: 'Research Scientist Intern', dates: 'Jun 2025 – Sep 2025' },
     bullets: [
       "Built a pipeline that turns an open LLM's wrong answers into new training data and fine-tunes the model on it, with teacher LLMs, LLM judges and models served on self-hosted vLLM.",
       "Wrote a first-author NeurIPS 2026 workshop paper testing whether an LLM's internal activations show where its reasoning goes wrong. A classifier on the activations flags wrong answers without extra LLM calls (AUROC 0.81 vs 0.78 for text only), but the probes we tested couldn't locate the failing step better than a trace-length rule.",
@@ -109,6 +116,12 @@ const skills = [
               </h3>
               <span class="dates">{r.dates}</span>
             </div>
+            {r.before && (
+              <div class="row before">
+                <p class="line">{r.before.title}</p>
+                <span class="dates">{r.before.dates}</span>
+              </div>
+            )}
             {r.note && <p class="note">{r.note}</p>}
             {r.bullets && (
               <ul>
@@ -240,6 +253,13 @@ const skills = [
   }
   .line {
     font-weight: 500;
+  }
+  .before {
+    margin-top: 0.2rem;
+  }
+  .before .line {
+    font-weight: 400;
+    color: var(--muted);
   }
   .org {
     font-weight: 400;
