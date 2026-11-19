@@ -94,6 +94,7 @@ export const sections: Section[] = [
           { label: 'Paper', url: 'https://www.ijcai.org/proceedings/2026/949' },
           { label: 'PDF', url: 'https://www.ijcai.org/proceedings/2026/0949.pdf' },
         ],
+        featured: true,
       },
       {
         id: 'efficiency',
