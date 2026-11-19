@@ -84,6 +84,18 @@ export const sections: Section[] = [
         featured: true,
       },
       {
+        id: 'ijcai-dc',
+        title: 'Context-Adaptive World Models for Visual Out-of-Distribution Generalization',
+        meta: 'IJCAI 2026 Doctoral Consortium',
+        authors: 'Shubham Subhnil',
+        summary:
+          'An extended abstract of my thesis, published in the IJCAI 2026 proceedings. It describes a Mamba-based world model that infers a few context vectors from short windows of pixels, each steering its own slice of the network, so the model can follow changes in the dynamics within an episode. Evaluation covers DeepMind Control and Atari, against an inferred-context baseline and an oracle that is given the true context.',
+        links: [
+          { label: 'Paper', url: 'https://www.ijcai.org/proceedings/2026/949' },
+          { label: 'PDF', url: 'https://www.ijcai.org/proceedings/2026/0949.pdf' },
+        ],
+      },
+      {
         id: 'efficiency',
         title: 'Cheaper training and faster prediction',
         summary:
